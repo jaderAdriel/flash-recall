@@ -5,7 +5,7 @@ import { index as listAll, store as storeDeck } from '@/routes/decks';
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { DeckCard } from '@/components/deck-card';
-import DeckForm from './deck-form';
+import DeckForm from './DeckForm';
 
 import {
   Dialog,
@@ -26,7 +26,7 @@ interface Props {
     decks: Deck[];
 }
 
-export default function index({decks} : Props) {
+export default function DeckList({decks} : Props) {
   const [openDialog, setOpenDialog] = useState(false);
 
   return (

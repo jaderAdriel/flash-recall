@@ -32,7 +32,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { useState } from "react"
-import DeckForm from "@/pages/decks/deck-form"
+import DeckForm from "@/pages/decks/DeckForm"
 import { Deck } from "@/types"
 
 interface DeckProps {

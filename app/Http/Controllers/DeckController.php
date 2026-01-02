@@ -20,7 +20,7 @@ class DeckController extends Controller
         $userId = $request->user()->id;
         $decks = Deck::where('created_by', $userId)->get();
 
-        return Inertia::render('decks/index', [
+        return Inertia::render('decks/DeckList', [
             'decks' => DeckResource::collection($decks)
         ]);
     }
