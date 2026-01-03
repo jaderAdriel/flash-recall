@@ -19,6 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('decks', [DeckController::class, 'index'])->name('decks.index');
     Route::post('decks', [DeckController::class, 'store'])->name('decks.store');
     Route::put('decks/{deck}', [DeckController::class, 'update'])->name('decks.update');
+    Route::delete('decks/{deck}', [DeckController::class, 'destroy'])->name('decks.destroy');
 });
 
 

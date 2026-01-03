@@ -80,6 +80,10 @@ class DeckController extends Controller
      */
     public function destroy(Deck $deck)
     {
-        //
+        Gate::authorize('delete', $deck);
+        $deck->delete();
+
+        return redirect()->route('decks.index')->with('message', 'Deck deleted with success!');
+
     }
 }
