@@ -4,16 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCardRequest;
 use App\Http\Requests\UpdateCardRequest;
+use App\Http\Resources\CardResource;
+use App\Http\Resources\DeckResource;
 use App\Models\Card;
+use App\Models\Deck;
+use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class CardController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Deck $deck)
     {
-        //
+
+        $cards = $deck->cards;
+
+        return Inertia::render('flashcard/Index', [
+            'cards' => CardResource::collection($cards),
+            'deck' => $deck
+        ]);
     }
 
     /**
@@ -27,9 +38,16 @@ class CardController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCardRequest $request)
+    public function store(StoreCardRequest $request, Deck $deck)
     {
-        //
+        Card::create([
+            'question' => $request->validated('question'),
+            'correct_answer' => $request->validated('correct_answer'),
+            'deck_id' => $deck->id
+        ]);
+
+        return redirect()->route('cards.index', ["deck" => $deck])
+            ->with('message', 'Card created with success!');
     }
 
     /**
