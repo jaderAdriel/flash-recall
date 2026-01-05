@@ -49,4 +49,9 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
+
+    public function decks()
+    {
+        return $this->hasMany(Deck::class, 'created_by');
+    }
 }

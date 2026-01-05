@@ -15,11 +15,11 @@ class Deck extends Model
 
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by');    
+        return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function decks() 
+    public function cards() 
     {
-        return $this->hasMany(Deck::class, 'created_by');
+        return $this->hasMany(Card::class);
     }
 }

@@ -42,8 +42,16 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
-export interface Deck {
+export interface DeckType {
     id: number;
     name: string;
     description: string;
+}
+
+export interface FlashCardType {
+    id: number,
+    question: string,
+    correct_answer: next_review,
+    created_at: Date,
+    next_review: Date | null
 }

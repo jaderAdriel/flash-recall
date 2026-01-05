@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\DeckController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -11,7 +12,7 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
@@ -20,6 +21,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('decks', [DeckController::class, 'store'])->name('decks.store');
     Route::put('decks/{deck}', [DeckController::class, 'update'])->name('decks.update');
     Route::delete('decks/{deck}', [DeckController::class, 'destroy'])->name('decks.destroy');
+
+    Route::get('cards/{deck}', [CardController::class, 'index'])->name('cards.index');
+    Route::post('cards/{deck}', [CardController::class, 'store'])->name('cards.store');
 });
 
 
