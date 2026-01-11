@@ -11,7 +11,7 @@ class UpdateCardRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'question' => ['required', 'string', 'max:255'],
+            'correct_answer' => ['required', 'string', 'max:255'],
         ];
     }
 }

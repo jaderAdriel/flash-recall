@@ -25,7 +25,7 @@ interface CardFormProps {
 }
 
 export default function FlashCardForm({flashCard, deck, onSuccess, onCancel} : CardFormProps) {
-    
+
     return (
         <Card className="w-full sm:max-w-md">
           <CardHeader>
@@ -33,67 +33,68 @@ export default function FlashCardForm({flashCard, deck, onSuccess, onCancel} : C
           </CardHeader>
 
           <CardContent>
-            <Form 
-              method={flashCard ? 'put' : 'post'}
-              action={flashCard ? store({ deck: deck.id }).url : store({ deck: deck.id }).url}
-              onSuccess={() => onSuccess?.()}
-            >
-              
-              {({ errors, processing }) => (
-                <div className="grid gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="card-question">Question</Label>
-                    <Input
-                        id="card-question"
-                        type="text"
-                        name="question"
-                        defaultValue={flashCard?.question ?? ''}
-                        required
-                        autoFocus
-                    />
-                    <InputError message={errors.question} />
-                  </div>
+              <Form
+                  method="post"
+                  action={flashCard ? `/cards/${flashCard.id}` : `/cards/${deck.id}`}
+                  onSuccess={() => onSuccess?.()}
+              >
+                  {({ errors, processing }) => (
+                      <>
+                          {flashCard && <input type="hidden" name="_method" value="PUT" />}
 
-                  <div className="grid gap-2">
-                    <Label htmlFor="card-correct_answer">Answer</Label>
-                    <Textarea
-                        id="card-correct_answer"
-                    
-                        name="correct_answer"
-                        required
-                        defaultValue={flashCard?.correct_answer ?? ''}
-                    />
-                    <InputError message={errors.correct_answer} />
-                  </div>
+                          <div className="grid gap-4">
+                              <div className="grid gap-2">
+                                  <Label htmlFor="card-question">Question</Label>
+                                  <Input
+                                      id="card-question"
+                                      type="text"
+                                      name="question"
+                                      defaultValue={flashCard?.question ?? ''}
+                                      required
+                                      autoFocus
+                                  />
+                                  <InputError message={errors.question} />
+                              </div>
 
-                  <div className="actions flex gap-2">
-                    <Button
-                      type="reset"
-                      variant={'secondary'}
-                      className="mt-4 w-full cursor-pointer"
-                      onClick={() => onCancel?.()}
-                      tabIndex={5}
-                      disabled={processing}
-                    >
-                      {processing && <Spinner />}
-                      Cancel
-                    </Button>
+                              <div className="grid gap-2">
+                                  <Label htmlFor="card-correct_answer">Answer</Label>
+                                  <Textarea
+                                      id="card-correct_answer"
+                                      name="correct_answer"
+                                      required
+                                      defaultValue={flashCard?.correct_answer ?? ''}
+                                  />
+                                  <InputError message={errors.correct_answer} />
+                              </div>
 
-                    <Button
-                      type="submit"
-                      className="mt-4 w-full"
-                      tabIndex={4}
-                      disabled={processing}
-                      data-test="login-button"
-                    >
-                      {processing && <Spinner />}
-                      Salvar
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </Form>
-            
+                              <div className="actions flex gap-2">
+                                  <Button
+                                      type="reset"
+                                      variant={'secondary'}
+                                      className="mt-4 w-full cursor-pointer"
+                                      onClick={() => onCancel?.()}
+                                      tabIndex={5}
+                                      disabled={processing}
+                                  >
+                                      {processing && <Spinner />}
+                                      Cancel
+                                  </Button>
+
+                                  <Button
+                                      type="submit"
+                                      className="mt-4 w-full"
+                                      tabIndex={4}
+                                      disabled={processing}
+                                      data-test="login-button"
+                                  >
+                                      {processing && <Spinner />}
+                                      Salvar
+                                  </Button>
+                              </div>
+                          </div>
+                      </>
+                  )}
+              </Form>
           </CardContent>
         </Card>
     )

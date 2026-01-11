@@ -22,8 +22,10 @@ interface CardListProps {
 
 export default function FlashCardList({ cards, deck } : CardListProps) {
   const [openDialog, setOpenDialog] = useState(false);
-  
-  const breadcrumbs: BreadcrumbItem[] = [
+  const [selectedCard, setSelectedCard] = useState<FlashCardType | null>(null);
+  const [modalType, setModalType] = useState<'form' | 'delete' | null>(null);
+
+    const breadcrumbs: BreadcrumbItem[] = [
     {
         title: `Decks`,
         href: listAll().url,
@@ -34,26 +36,46 @@ export default function FlashCardList({ cards, deck } : CardListProps) {
     },
   ];
 
-  return (
+    const handleEdit = (card: FlashCardType) => {
+        setSelectedCard(card);
+        setModalType('form');
+    };
+
+    const handleDelete = (card: FlashCardType) => {
+        setSelectedCard(card);
+        setModalType('delete');
+    };
+
+    const closeModal = () => {
+        setSelectedCard(null);
+        setModalType(null);
+    };
+
+
+    return (
     <AppLayout breadcrumbs={breadcrumbs}>
         <Head title={`Cards - ${deck.name}`} />
         <div className="flex flex-wrap gap-2 p-4">
-          {cards.map((card) => (
-              
-              <FlashCard card={card} />
-          ))}
-            
+            {cards.map(card => (
+                <FlashCard
+                    key={card.id}
+                    card={card}
+                    onEdit={() => handleEdit(card)}
+                    onDelete={() => handleDelete(card)}
+                />
+            ))}
         </div>
 
-        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-          <DialogTrigger asChild>
-            <Button className='mt-auto' variant="outline" onClick={() => setOpenDialog(true)}>New Card</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px] p-0 border-0">
-            <FlashCardForm deck={deck} onSuccess={() => setOpenDialog(false)} onCancel={() => setOpenDialog(false)} />
-          </DialogContent>
+        <Dialog open={modalType === 'form'} onOpenChange={closeModal}>
+            <DialogContent className="sm:max-w-[425px] p-0 border-0">
+                <FlashCardForm
+                    deck={deck}
+                    flashCard={selectedCard ?? undefined}
+                    onSuccess={closeModal}
+                    onCancel={closeModal}
+                />
+            </DialogContent>
         </Dialog>
-
     </AppLayout>
   )
 }

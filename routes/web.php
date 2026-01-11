@@ -24,6 +24,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('cards/{deck}', [CardController::class, 'index'])->name('cards.index');
     Route::post('cards/{deck}', [CardController::class, 'store'])->name('cards.store');
+    Route::put('cards/{card}', [CardController::class, 'update'])->name('cards.update');
+    Route::delete('cards/{card}', [CardController::class, 'destroy'])->name('cards.destroy');
 });
 
 
