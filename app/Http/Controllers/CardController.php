@@ -71,14 +71,21 @@ class CardController extends Controller
      */
     public function update(UpdateCardRequest $request, Card $card)
     {
-        //
+        Gate::authorize('update', $card);
+        $card->update($request->validated());
+
+        return redirect()
+            ->route('cards.index', ['deck' => $card->deck_id])
+            ->with('message', 'Card atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Card $card)
     {
-        //
+        Gate::authorize('delete', $card);
+        $card->delete();
+
+        return redirect()
+            ->route('cards.index', ['deck' => $card->deck_id])
+            ->with('message', 'Card deletado com sucesso!');
     }
 }

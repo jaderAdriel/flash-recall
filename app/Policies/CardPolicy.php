@@ -38,7 +38,7 @@ class CardPolicy
      */
     public function update(User $user, Card $card): bool
     {
-        return false;
+        return $user->id === $card->deck->created_by;
     }
 
     /**
@@ -46,7 +46,7 @@ class CardPolicy
      */
     public function delete(User $user, Card $card): bool
     {
-        return false;
+        return $user->id === $card->deck->created_by;
     }
 
     /**

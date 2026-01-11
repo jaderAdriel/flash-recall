@@ -22,11 +22,12 @@ import { Button } from "./ui/button";
 import { Link } from "@inertiajs/react";
 
 interface FlashCardProps {
-    deck?: DeckType,
     card: FlashCardType
+    onEdit: () => void
+    onDelete: () => void
 }
 
-export function FlashCard({deck, card } : FlashCardProps) {
+export function FlashCard({ card, onEdit, onDelete }: FlashCardProps) {
     const [showBack, setShowBack] = useState(false);
     const reviews = [
       { status: 'correct' },
@@ -41,7 +42,7 @@ export function FlashCard({deck, card } : FlashCardProps) {
 
       return card.question.slice(0, max) + '...';
     }
-    
+
     return (
     <>
     <Card className="w-full md:max-w-80 md:h-50 overflow-hidden transition-all hover:shadow-md flex flex-col justify-between gap-1 p-2"  onClick={() => {setShowBack(!showBack)}}>
@@ -56,7 +57,7 @@ export function FlashCard({deck, card } : FlashCardProps) {
         <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Last answers</span>
         <div className="flex gap-1 mt-1">
             {reviews.map((rev, i) => (
-                <div 
+                <div
                     key={i}
                     className={cn(
                         "h-2 w-2 rounded-full",
@@ -80,12 +81,23 @@ export function FlashCard({deck, card } : FlashCardProps) {
           <DropdownMenuContent className="w-40" align="end">
             <DropdownMenuLabel className="">Card Actions</DropdownMenuLabel>
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                Delete
-              </DropdownMenuItem>
+                <DropdownMenuItem
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        onEdit()
+                    }}
+                >
+                    Edit
+                </DropdownMenuItem>
+
+                <DropdownMenuItem
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        onDelete()
+                    }}
+                >
+                    Delete
+                </DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
